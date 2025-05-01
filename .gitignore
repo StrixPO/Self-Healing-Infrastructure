@@ -1,0 +1,25 @@
+
+# Python
+__pycache__/
+*.pyc
+venv/
+*.log
+
+# Docker
+*.env
+*.pid
+
+# Ansible
+*.retry
+inventory.ini
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs and screenshots
+server.log
+screenshots/

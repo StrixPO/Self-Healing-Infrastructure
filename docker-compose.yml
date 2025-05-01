@@ -1,0 +1,63 @@
+# version: "3.8"
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx_service
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf # Mount custom NGINX config
+    networks:
+      - monitoring
+
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:latest # ✅ Corrected spelling here
+    container_name: nginx_exporter
+    command:
+      - "--nginx.scrape-uri=http://nginx:80/stub_status"
+    ports:
+      - "9113:9113"
+    depends_on:
+      - nginx
+    networks:
+      - monitoring
+
+  prometheus:
+    image: prom/prometheus:latest # Prometheus image
+    container_name: prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml # Mount custom config
+      - ./prometheus/alert_rules.yml:/etc/prometheus/alert_rules.yml # Mount alertmanager
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml" # explicit congif path
+    ports:
+      - "9090:9090" # Prometheus UI at localhist:9090
+    networks:
+      - monitoring
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: alertmanager
+    volumes:
+      - ./alertmanager/config.yml:/etc/alertmanager/config.yml # Custom config
+    ports:
+      - "9093:9093" # Default Alertmanager UI port
+    networks:
+      - monitoring
+
+  healer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: self_healing_controller
+    ports:
+      - "5000:5000"
+    networks:
+      - monitoring
+    volumes:
+      - ./server.log:/app/server.log
+
+networks:
+  monitoring: # Shared network so conainer can talk via service names
+

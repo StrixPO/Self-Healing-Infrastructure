@@ -1,0 +1,24 @@
+# global:
+#   resolve_timeout: 1m
+
+# route:
+#   receiver: "default"
+#   group_wait: 10s
+#   group_interval: 30s
+#   repeat_interval: 1m
+
+# receivers:
+#   - name: "default"
+#     email_configs:
+#       - to: "noreply@example.com" # Placeholder — won't send emails unless SMTP is configured
+global:
+  resolve_timeout: 5m
+
+route:
+  receiver: webhook-receiver
+
+receivers:
+  - name: webhook-receiver
+    webhook_configs:
+      - url: "http://host.docker.internal:5000/restart"
+        send_resolved: true

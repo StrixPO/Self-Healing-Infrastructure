@@ -1,0 +1,9 @@
+- name: Restart NGINX Container
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Restart nginx_service container
+      community.docker.docker_container:
+        name: nginx_service
+        state: started
+        restart: true

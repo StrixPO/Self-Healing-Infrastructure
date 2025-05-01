@@ -1,0 +1,15 @@
+---
+- name: Self-healing - Restart Flask Server
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Stop Flask server (if running)
+      shell: pkill -f server.py || true
+      ignore_errors: yes
+
+    - name: Start Flask server
+      shell: |
+        source venv/bin/activate
+        nohup python3 server.py > server.log 2>&1 &
+      args:
+        chdir: "/mnt/d/projects/ElevateLabs/Final-Projects/self-healing-infra"
