@@ -28,8 +28,7 @@ self-healing-infra/ │
 ├── ansible/ # (Optional) Ansible modules or roles 
 ├── venv/ # Python virtual environment 
 └── screenshots/ # Screenshots for documentation/demo
-
-
+``
 ## 🚀 How it Works
 
 1. **Prometheus** scrapes NGINX metrics.
