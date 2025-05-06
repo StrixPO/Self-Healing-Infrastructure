@@ -29,7 +29,7 @@ This project demonstrates a self-healing infrastructure setup using **Prometheus
 ``
 docker-compose up -d
 ``
-2. Run Flask Server (in venv)
+### 2. Run Flask Server (in venv)
 ``
 source venv/bin/activate
 python3 server.py
@@ -37,7 +37,7 @@ python3 server.py
 
   - Ensure Ansible is installed and Flask is in a virtual environment.
 
-3. Simulate a Failure
+### 3. Simulate a Failure
 Stop the NGINX container:
 ``
 docker stop nginx_service
